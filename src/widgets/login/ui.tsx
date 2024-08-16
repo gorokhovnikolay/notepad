@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../app/providers/auth-provider/AuthProvider'
 import { IUser } from './model'
+import styles from './login.module.css'
 
 export const LoginForm = () => {
 	const [values, setValues] = useState({} as IUser)
@@ -22,9 +23,13 @@ export const LoginForm = () => {
 	}
 
 	return (
-		<Center maw={400} h={100} m='auto' mt='150px'>
-			<form onChange={changeHandler} onSubmit={submitHandler}>
-				<Fieldset legend='Personal information'>
+		<Center maw={800} h={100} m='auto' mt='150px'>
+			<form
+				className={styles.formLogin}
+				onChange={changeHandler}
+				onSubmit={submitHandler}
+			>
+				<Fieldset legend='Авторизация'>
 					<TextInput label='Your name' name='name' placeholder='Your name' />
 					<TextInput label='Email' name='email' placeholder='Email' mt='md' />
 					<TextInput
@@ -34,8 +39,10 @@ export const LoginForm = () => {
 						placeholder='password'
 						mt='md'
 					/>
+					<Button className={styles.loginButton} type='submit'>
+						Login
+					</Button>
 				</Fieldset>
-				<Button type='submit'>Login</Button>
 			</form>
 		</Center>
 	)

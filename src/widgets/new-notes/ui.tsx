@@ -19,7 +19,7 @@ export const NewNotes = () => {
 	function requestDebounce(val: string): void {
 		const note = {
 			id,
-			title: val.slice(0, 50),
+			title: val.slice(0, 25),
 			note: val,
 		}
 		const notesDbRef = ref(db, `notes/${id}`)
@@ -27,11 +27,18 @@ export const NewNotes = () => {
 	}
 
 	return (
-		<Textarea
-			autosize
-			placeholder='Новая заметка'
-			onChange={changeValue}
-			value={values}
-		/>
+		<div>
+			{new Date(id).toLocaleString()}
+			<Textarea
+				variant='unstyled'
+				value={values}
+				onChange={changeValue}
+				size='lg'
+				label='Новая заметка'
+				placeholder='Lorem ipsum dolor sit amet consectetur...'
+				autosize
+				minRows={2}
+			/>
+		</div>
 	)
 }

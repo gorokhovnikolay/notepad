@@ -1,9 +1,9 @@
 import { AppShell, Burger, Button, Modal } from '@mantine/core'
 import { useState } from 'react'
 import { Header } from '../../widgets/header/ui'
-import { NotesList } from '../../widgets/navbar/ui'
 import { Outlet } from 'react-router-dom'
 import { useControl } from '../../app/providers/control-provider/ControlProvider'
+import { NavBar } from '../../widgets/navbar'
 
 export const MainPage = () => {
 	const [isOpened, setIsOpened] = useState(true)
@@ -31,7 +31,7 @@ export const MainPage = () => {
 			</AppShell.Header>
 
 			<AppShell.Navbar p='md'>
-				<NotesList />
+				<NavBar />
 			</AppShell.Navbar>
 			<AppShell.Footer>
 				<div>Footer</div>

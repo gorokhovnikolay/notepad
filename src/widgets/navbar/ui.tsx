@@ -1,27 +1,33 @@
-import { onValue, ref } from 'firebase/database'
-import { useEffect, useState } from 'react'
-import { db } from '../../app/firebase/config'
 import { Link } from 'react-router-dom'
+import { Center, Loader, Menu } from '@mantine/core'
+import { IconStar } from '@tabler/icons-react'
+import { useFetchList } from '../../shared/useFetchList'
 
-export const NotesList = () => {
-	const [notes, setNotes] = useState({})
-	useEffect(() => {
-		const notesDbRef = ref(db, 'notes')
-		onValue(notesDbRef, (snapshot) => {
-			if (snapshot.val()) {
-				setNotes(snapshot.val())
-			}
-		})
-	}, [])
+export const NavBar = () => {
+	const { notes, location, isLoading } = useFetchList()
 	return (
-		<div>
-			{Object.values(notes).map((note: any) => {
-				return (
-					<div key={note.id}>
-						<Link to={`/${note.id}`}>{note.title}</Link>
-					</div>
-				)
-			})}
-		</div>
+		<>
+			{isLoading && (
+				<Center>
+					<Loader color='blue' />
+				</Center>
+			)}
+			<Menu>
+				{Object.values(notes).map((note: any) => {
+					return (
+						<Menu.Item
+							leftSection={<IconStar />}
+							key={note.id}
+							style={{ marginBottom: '5px' }}
+						>
+							<Link to={`/${note.id}`} state={location.pathname}>
+								{' '}
+								{note.title}
+							</Link>
+						</Menu.Item>
+					)
+				})}
+			</Menu>
+		</>
 	)
 }
