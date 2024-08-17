@@ -1,0 +1,6 @@
+.searchButton {
+	width: 200px;
+}
+.searchButton > .mantine-Button-inner {
+	justify-content: flex-start;
+}
