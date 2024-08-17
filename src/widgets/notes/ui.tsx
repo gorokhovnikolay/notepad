@@ -1,11 +1,11 @@
-import { onValue, ref, set } from 'firebase/database'
+import { onValue, set } from 'firebase/database'
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
-import { db } from '../../app/firebase/config'
 import { useMatch, useParams } from 'react-router-dom'
 import { useControl } from '../../app/providers/control-provider/ControlProvider'
 import { Textarea } from '@mantine/core'
 import Markdown from 'marked-react'
 import { debounce } from '../../shared/debounce/debounce'
+import { linkWithId } from '../../shared/dataBaseRef'
 
 export const NotesListNote = () => {
 	const [note, setNote] = useState({ id: '', title: '', note: '' })
@@ -17,14 +17,13 @@ export const NotesListNote = () => {
 	useEffect(() => {
 		if (id) {
 			setIdCurentNote(id)
+			onValue(linkWithId(id), (snapshot) => {
+				if (snapshot.val()) {
+					setNote(snapshot.val())
+					setValues(snapshot.val().note)
+				}
+			})
 		}
-		const notesDbRef = ref(db, `notes/${id}`)
-		onValue(notesDbRef, (snapshot) => {
-			if (snapshot.val()) {
-				setNote(snapshot.val())
-				setValues(snapshot.val().note)
-			}
-		})
 	}, [id, setIdCurentNote])
 
 	const debounseFn = useRef(debounce(requestDebounce, 1500)).current
@@ -41,8 +40,7 @@ export const NotesListNote = () => {
 			title: val.slice(0, 25),
 			note: val,
 		}
-		const notesDbRef = ref(db, `notes/${id}`)
-		set(notesDbRef, note)
+		set(linkWithId(id.toString()), note)
 	}
 
 	return (

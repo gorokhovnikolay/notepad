@@ -1,8 +1,8 @@
 import { Textarea } from '@mantine/core'
 import { ChangeEvent, useRef, useState } from 'react'
 import { debounce } from '../../shared/debounce/debounce'
-import { ref, set } from 'firebase/database'
-import { db } from '../../app/firebase/config'
+import { set } from 'firebase/database'
+import { linkWithId } from '../../shared/dataBaseRef'
 
 export const NewNotes = () => {
 	const [values, setValues] = useState('')
@@ -22,8 +22,7 @@ export const NewNotes = () => {
 			title: val.slice(0, 25),
 			note: val,
 		}
-		const notesDbRef = ref(db, `notes/${id}`)
-		set(notesDbRef, note)
+		set(linkWithId(id.toString()), note)
 	}
 
 	return (

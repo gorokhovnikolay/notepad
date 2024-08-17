@@ -1,0 +1,8 @@
+.noteItem {
+	border: 1px solid gray;
+	padding: 10px;
+	border-radius: 8px;
+	height: 200px;
+	overflow: hidden;
+	cursor: pointer;
+}

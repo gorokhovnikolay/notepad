@@ -1,13 +1,15 @@
-import { AppShell, Burger, Button, Modal } from '@mantine/core'
+import { AppShell, Burger } from '@mantine/core'
 import { useState } from 'react'
 import { Header } from '../../widgets/header/ui'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { useControl } from '../../app/providers/control-provider/ControlProvider'
 import { NavBar } from '../../widgets/navbar'
+import { MainWidget } from '../../widgets/main'
 
 export const MainPage = () => {
 	const [isOpened, setIsOpened] = useState(true)
-	const { modal, isCollapsed, opened } = useControl()
+	const { isCollapsed } = useControl()
+	const location = useLocation()
 
 	return (
 		<AppShell
@@ -38,12 +40,7 @@ export const MainPage = () => {
 			</AppShell.Footer>
 
 			<AppShell.Main>
-				<Outlet />
-				<Modal opened={opened} onClose={modal.close} title='Authentication'>
-					<div>{modal.content}</div>
-					<Button onClick={modal.confirm}>Да</Button>
-					<Button onClick={modal.close}>нет</Button>
-				</Modal>
+				{location.pathname === '/' ? <MainWidget /> : <Outlet />}
 			</AppShell.Main>
 		</AppShell>
 	)
